@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brandbook | De Doorstroomadviseur</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Playfair+Display:ital,wght@1,600;1,700&display=swap');
+:root{
+  --kleur-blauw-r3:#afd4e6;--kleur-blauw-r5:#8dc0de;--kleur-blauw-r7:#7cb3d5;
+  --kleur-grijs-licht:#e2e8f0;--kleur-grijs-donker:#94a3b8;
+  --kleur-tekst:#1e293b;--kleur-wit:#fff;
+  --font-kop:'Playfair Display',serif;--font-tekst:'Open Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--kleur-grijs-licht);color:var(--kleur-tekst);font-family:var(--font-tekst);overflow-x:hidden;line-height:1.7;-ms-overflow-style:none;scrollbar-width:none}
+::-webkit-scrollbar{display:none}
+#scroll-wrapper{position:relative;width:100%}
+.brand-content{position:relative;width:100%;display:flex;flex-direction:column}
+
+.section-bg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:-2}
+.bg-grijs-licht .section-bg{background:var(--kleur-grijs-licht)}
+.bg-r3 .section-bg{background:var(--kleur-blauw-r3)}
+.bg-wit .section-bg{background:var(--kleur-wit)}
+.bg-r5 .section-bg{background:var(--kleur-blauw-r5)}
+.bg-r7 .section-bg{background:var(--kleur-blauw-r7)}
+
+.road-container{position:absolute;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.6;overflow:visible}
+.road-svg{width:100%;height:100%;overflow:visible}
+.main-road-path{fill:none;stroke:rgba(255,255,255,.4);stroke-width:120;stroke-linecap:butt;stroke-linejoin:round}
+.road-dash{fill:none;stroke:rgba(148,163,184,.6);stroke-width:4;stroke-dasharray:20 20;stroke-linecap:butt}
+
+/* --- WANDELAARS (voeten staan op het wegpunt) --- */
+.walker{position:absolute;width:90px;height:90px;margin-left:-45px;margin-top:-86px;will-change:transform,left,top}
+.walker svg{width:100%;height:100%;overflow:visible;display:block}
+
+section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vw;position:relative;background:transparent}
+.content-wrapper{position:relative;z-index:2}
+.content-left{max-width:50%;margin-right:auto;padding-right:2rem}
+.content-right{max-width:50%;margin-left:auto;padding-left:2rem}
+.content-center{max-width:80%;margin:0 auto;text-align:center}
+h1,h2,h3{font-family:var(--font-kop);font-style:italic;font-weight:700;margin-bottom:1.5rem;color:var(--kleur-tekst);text-shadow:0 0 20px rgba(255,255,255,.7)}
+h1{font-size:clamp(3rem,8vw,6rem);line-height:1.1}
+h2{font-size:clamp(2.5rem,5vw,4rem);border-bottom:2px solid var(--kleur-grijs-donker);padding-bottom:1rem;display:inline-block}
+h3{font-size:clamp(1.5rem,3vw,2.5rem);margin-top:1.5rem;margin-bottom:.5rem;text-shadow:none}
+p{font-size:clamp(1.1rem,2vw,1.3rem);max-width:800px;margin-bottom:1.5rem;text-shadow:0 0 15px rgba(255,255,255,.8)}
+.flex-container{display:flex;flex-wrap:wrap;gap:2rem;margin-top:2rem}
+.card{background:rgba(255,255,255,.85);padding:2.5rem;border-left:4px solid var(--kleur-blauw-r7);flex:1 1 300px;border-radius:0 8px 8px 0;box-shadow:0 4px 15px rgba(0,0,0,.05);backdrop-filter:blur(10px)}
+.color-swatch-container{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:2rem}
+.color-swatch{width:140px;height:140px;display:flex;align-items:flex-end;padding:1rem;font-weight:600;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,.05);font-size:.9rem;text-shadow:none}
+.typo-voorbeeld{margin-top:3rem;padding:2.5rem;background:rgba(255,255,255,0.6);border-radius:8px;border:1px dashed var(--kleur-grijs-donker)}
+.fasen-container{display:flex;flex-direction:column;gap:2rem;margin-top:3rem}
+.fase-item{position:relative;background:rgba(255,255,255,.9);padding:2.5rem 3rem 2.5rem 6rem;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.05);overflow:hidden;display:flex;flex-direction:column;justify-content:center;backdrop-filter:blur(10px)}
+.fase-nummer{font-family:var(--font-kop);font-style:italic;font-size:8rem;color:var(--kleur-grijs-donker);opacity:.15;position:absolute;top:50%;left:-1rem;transform:translateY(-50%);line-height:1;z-index:0;pointer-events:none}
+.fase-item h3,.fase-item p{position:relative;z-index:1;margin-bottom:0;text-shadow:none}
+.fase-item h3{margin-bottom:.5rem;margin-top:0}
+@media (max-width:768px){.content-left,.content-right{max-width:100%;padding:0}}
+</style>
+</head>
+<body>
+<div id="scroll-wrapper">
+<div class="brand-content">
+
+  <div class="road-container">
+    <svg class="road-svg" viewBox="0 0 1000 6000" preserveAspectRatio="none">
+      <path class="main-road-path" d="M 500 0 C 500 300, 800 700, 800 1000 C 800 1300, 200 1700, 200 2000 C 200 2300, 800 2700, 800 3000 C 800 3300, 200 3700, 200 4000 C 200 4300, 800 4700, 800 5000 C 800 5300, 500 5700, 500 6000"/>
+      <path class="road-dash" d="M 500 0 C 500 300, 800 700, 800 1000 C 800 1300, 200 1700, 200 2000 C 200 2300, 800 2700, 800 3000 C 800 3300, 200 3700, 200 4000 C 200 4300, 800 4700, 800 5000 C 800 5300, 500 5700, 500 6000"/>
+    </svg>
+  </div>
+
+  <section class="bg-grijs-licht">
+    <div class="section-bg"></div>
+    <div class="content-wrapper content-center">
+      <h1>De Doorstroom<wbr>adviseur</h1>
+      <p>Een rustige, visuele presentatie van onze merkidentiteit. Scroll naar beneden om het merkboek te ontdekken. Het proces gaat naadloos door, verbonden door een stilstaande route op de achtergrond.</p>
+    </div>
+  </section>
+
+  <section class="bg-r3">
+    <div class="section-bg"></div>
+    <div class="content-wrapper content-left">
+      <h2>Onze Missie</h2>
+      <p>In de discussie over de woningmarkt gaat veel aandacht uit naar nieuwbouw. Wij richten ons op de bestaande woningvoorraad en de mensen die daarin wonen.</p>
+      <p>Voor ouderen is een verhuizing vaak meer dan een praktische stap; het brengt emoties en complexiteit met zich mee. Wij bieden overzicht en kalme begeleiding om de drempel tot verhuizen te verlagen, zodat zij prettig en passend kunnen blijven wonen.</p>
+    </div>
+  </section>
+
+  <section class="bg-wit">
+    <div class="section-bg"></div>
+    <div class="content-wrapper content-right">
+      <h2>Kernwaarden</h2>
+      <div class="flex-container">
+        <div class="card"><h3>Verantwoordelijkheid</h3><p>Afspraken nakomen en regie nemen. Waar iets niet loopt, wachten we niet af, maar verbeteren we de situatie. We zorgen samen voor een vloeiend proces.</p></div>
+        <div class="card"><h3>Betekenisvolle Eenvoud</h3><p>Zaken begrijpelijk en overzichtelijk maken. Problemen hoeven niet ingewikkelder te zijn dan nodig. Wij brengen structuur en rust in een onoverzichtelijke markt.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-grijs-licht">
+    <div class="section-bg"></div>
+    <div class="content-wrapper content-left">
+      <h2>Visuele Identiteit</h2>
+      <p>We gebruiken kalme, frisse blauwtinten gecombineerd met twee rustgevende grijstinten als basis en ornament.</p>
+
+      <div class="color-swatch-container">
+        <div class="color-swatch" style="background-color:var(--kleur-blauw-r3)">R3 Blauw<br>#afd4e6</div>
+        <div class="color-swatch" style="background-color:var(--kleur-blauw-r5)">R5 Blauw<br>#8dc0de</div>
+        <div class="color-swatch" style="background-color:var(--kleur-blauw-r7)">R7 Blauw<br>#7cb3d5</div>
+        <div class="color-swatch" style="background-color:var(--kleur-grijs-licht);color:var(--kleur-tekst);border:1px solid var(--kleur-grijs-donker)">Lichtgrijs<br>#e2e8f0</div>
+        <div class="color-swatch" style="background-color:var(--kleur-grijs-donker);color:var(--kleur-wit)">Donkergrijs<br>#94a3b8</div>
+      </div>
+
+      <div class="typo-voorbeeld">
+        <h3>Typografie: Playfair Display (Italic)</h3>
+        <p>Dit lettertype gebruiken we voor koppen om een persoonlijke, betrouwbare en klassieke uitstraling te geven, passend bij onze doelgroep.</p>
+        <h3 style="font-family:var(--font-tekst);font-style:normal">Typografie: Open Sans</h3>
+        <p style="font-family:var(--font-tekst)">Voor de lopende tekst kiezen we een schreefloze, uiterst leesbare font. Dit sluit naadloos aan bij onze kernwaarde 'Betekenisvolle Eenvoud'.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-r5">
+    <div class="section-bg"></div>
+    <div class="content-wrapper content-right">
+      <h2>De Dienstverlening</h2>
+      <p>Onze fasering weerspiegelt de structuur en rust die wij bieden. De stappen lopen vloeiend in elkaar over, zonder dat informatie overlapt.</p>
+      <div class="fasen-container">
+        <div class="fase-item"><span class="fase-nummer">01</span><h3>Rust en oriëntatie</h3><p>Het persoonlijk bespreken van de huidige woonsituatie, wensen en belemmeringen in een ontspannen setting.</p></div>
+        <div class="fase-item"><span class="fase-nummer">02</span><h3>De routekaart</h3><p>Het uitwerken van alle benodigde stappen in een overzichtelijk, visueel stappenplan dat direct houvast biedt.</p></div>
+        <div class="fase-item"><span class="fase-nummer">03</span><h3>Begeleiding en afstemming</h3><p>Ondersteuning bij het inschakelen van de juiste partijen terwijl de oudere de regie volledig behoudt.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-r7">
+    <div class="section-bg"></div>
+    <div class="content-wrapper content-center">
+      <h2 style="border-bottom-color:var(--kleur-wit)">Het Sneeuwbaleffect</h2>
+      <p>Onze identiteit is maatschappelijk gedreven. Eén succesvolle doorstroming zet de hele keten in beweging:</p>
+      <div class="flex-container">
+        <div class="card" style="border-left-color:var(--kleur-blauw-r3)"><h3>De Oudere</h3><p>Behoud van zelfstandigheid en rust in een comfortabele, passende woning zonder onderhoudszorgen.</p></div>
+        <div class="card" style="border-left-color:var(--kleur-blauw-r5)"><h3>Jonge Gezinnen</h3><p>Krijgen eindelijk de ruimte in de vrijgekomen, ruimere eengezinswoningen.</p></div>
+        <div class="card" style="border-left-color:var(--kleur-wit)"><h3>Starters</h3><p>Vinden sneller een plek omdat de keten weer stroomt en kleinere woningen vrijkomen.</p></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<script>
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+
+document.addEventListener("DOMContentLoaded",()=>{
+  const wrapper=document.getElementById('scroll-wrapper');
+  const block=document.querySelector('.brand-content');
+
+  /* ---------- Oneindige scroll (3 identieke blokken) ---------- */
+  wrapper.insertBefore(block.cloneNode(true),block);
+  wrapper.appendChild(block.cloneNode(true));
+  let blockH=block.offsetHeight;
+  window.addEventListener('resize',()=>blockH=block.offsetHeight);
+  window.scrollTo(0,blockH);
+  let ticking=false;
+  window.addEventListener('scroll',()=>{
+    if(ticking)return; ticking=true;
+    requestAnimationFrame(()=>{
+      const y=window.scrollY;
+      if(y>=blockH*2) window.scrollTo(0,y-blockH);
+      else if(y<=0) window.scrollTo(0,y+blockH);
+      ticking=false;
+    });
+  });
+
+  /* ---------- Silhouet-looprig (zijaanzicht, vaste kleur) ---------- */
+  const INK='#2f4559';
+  const CFG={
+    senior:{A:15,arm:7, lean:20,head:14,stride:33,hd:34,kmin:14,kmax:26,w:{leg:8.5,arm:6.5,torso:13},hat:true,cane:true},
+    helper:{A:22,arm:22,lean:5, head:0, stride:50,hd:38,kmin:8, kmax:42,w:{leg:8.5,arm:6.2,torso:11},hat:false,cane:false}
+  };
+  const L=21,UA=15,FA=14,GROUND=96;
+  const rad=d=>d*Math.PI/180, f1=n=>n.toFixed(1);
+  const P=(...pts)=>'M'+pts.map(p=>f1(p[0])+' '+f1(p[1])).join(' L');
+  const add=(o,r,a)=>[o[0]+r*Math.sin(a),o[1]+r*Math.cos(a)];
+
+  function svgFor(c){
+    const p=(n,w)=>`<path data-p="${n}" stroke-width="${w}"/>`;
+    return `<svg viewBox="0 0 100 100"><g fill="${INK}" stroke="${INK}" stroke-linecap="round" stroke-linejoin="round">
+      <g fill="none">${p('aF',c.w.arm)}${p('lF',c.w.leg)}${p('torso',c.w.torso)}${p('lN',c.w.leg)}${c.cane?p('cane',2.6):''}${p('aN',c.w.arm)}</g>
+      <circle data-p="head" r="${c.hat?6.4:6.5}" stroke="none"/>
+      ${c.hat?'<path data-p="brim" fill="none" stroke-width="3"/><path data-p="crown" stroke-width="1"/>':''}
+    </g></svg>`;
+  }
+
+  function leg(phi,c){
+    const a=rad(c.A*Math.sin(phi));
+    const k=rad(c.kmin+c.kmax*Math.pow(.5+.5*Math.cos(phi+.4),2.2));
+    const knee=add([0,0],L,a), b=a-k, ankle=add(knee,L,b);
+    const psi=-b*.45, toe=[ankle[0]+6*Math.cos(psi),ankle[1]+6*Math.sin(psi)];
+    return {knee,ankle,toe};
+  }
+  function arm(S,deg,bend){
+    const u=rad(deg), el=add(S,UA,u);
+    return {el,hand:add(el,FA,u+rad(bend))};
+  }
+
+  function pose(phi,c){
+    const near=leg(phi,c), far=leg(phi+Math.PI,c);
+    const low=Math.max(near.ankle[1],near.toe[1],far.ankle[1],far.toe[1]);
+    const hip=[50,GROUND-low], T=q=>[hip[0]+q[0],hip[1]+q[1]];
+    const lam=rad(c.lean+1.6*Math.sin(2*phi+.5)), up=(r,a)=>[hip[0]+r*Math.sin(a),hip[1]-r*Math.cos(a)];
+    const S=up(22,lam), hc=up(c.hd,lam+rad(c.head-1.2*Math.sin(2*phi+.9)));
+    const sw=c.arm*Math.sin(phi-.35);
+    const aF=arm(S,sw,c.cane?15:20+Math.max(0,sw)*.8);
+    let aN,cane='';
+    if(c.cane){
+      aN=arm(S,40,45);
+      const h=aN.hand, top=[h[0],h[1]-1.5], tip=[h[0]+6+3*Math.sin(phi),GROUND];
+      cane=P(tip,top)+` Q${f1(top[0])} ${f1(top[1]-7)} ${f1(top[0]-6)} ${f1(top[1]-6)}`;
+    } else { const s2=-sw; aN=arm(S,s2,20+Math.max(0,s2)*.8); }
+    const d={
+      aF:P(S,aF.el,aF.hand), aN:P(S,aN.el,aN.hand),
+      lF:P(hip,T(far.knee),T(far.ankle),T(far.toe)),
+      lN:P(hip,T(near.knee),T(near.ankle),T(near.toe)),
+      torso:P(hip,S), cane
+    };
+    if(c.hat){
+      const [x,y]=hc;
+      d.brim=P([x-10,y-4.5],[x+11,y-6.5]);
+      d.crown=`M${f1(x-6)} ${f1(y-5)} L${f1(x-5.5)} ${f1(y-10)} Q${f1(x)} ${f1(y-14)} ${f1(x+5.5)} ${f1(y-11)} L${f1(x+6)} ${f1(y-6)} Z`;
+    }
+    return {d,head:hc};
+  }
+
+  /* ---------- Figuren in elk blok plaatsen ---------- */
+  const blocks=[...document.querySelectorAll('.brand-content')];
+  const walkers=['senior','helper'].map(type=>{
+    const copies=blocks.map(b=>{
+      const el=document.createElement('div');
+      el.className='walker';
+      el.innerHTML=svgFor(CFG[type]);
+      b.querySelector('.road-container').appendChild(el);
+      const refs={};
+      el.querySelectorAll('[data-p]').forEach(n=>refs[n.dataset.p]=n);
+      return {el,refs};
+    });
+    return {c:CFG[type],copies,phase:type==='senior'?0:1.3,face:1,target:1};
+  });
+  const [senior,helper]=walkers;
+
+  /* ---------- Eindeloze beweging langs de route ---------- */
+  const road=block.querySelector('.main-road-path');
+  const LEN=road.getTotalLength();
+  const SPEED=38, GAP=78;
+  const wrap=v=>((v%LEN)+LEN)%LEN;
+  let s=LEN*.04, last=null;
+
+  function frame(now){
+    if(last===null) last=now;
+    const dt=Math.max(0,Math.min(.05,(now-last)/1000)); last=now;
+    const sx=block.clientWidth/1000, sy=blockH/6000;
+
+    const a=road.getPointAtLength(wrap(s)), b=road.getPointAtLength(wrap(s+2));
+    const scr=Math.hypot((b.x-a.x)*sx,(b.y-a.y)*sy)/2||1;
+    const dPx=SPEED*dt;
+    s=wrap(s+dPx/scr);
+
+    walkers.forEach(w=>{
+      const pos=wrap(s-(w===helper?GAP:0));
+      const p0=road.getPointAtLength(pos), p1=road.getPointAtLength(wrap(pos+4));
+      const dx=(p1.x-p0.x)*sx, dy=(p1.y-p0.y)*sy, dirX=dx/(Math.hypot(dx,dy)||1);
+      if(dirX>.18) w.target=1; else if(dirX<-.18) w.target=-1;
+      w.face+=(w.target-w.face)*Math.min(1,dt*4);
+
+      w.phase+=2*Math.PI*dPx/w.c.stride;
+      const pz=pose(w.phase,w.c);
+      const left=(p0.x/10)+'%', top=(p0.y/60)+'%';
+
+      w.copies.forEach(({el,refs})=>{
+        el.style.left=left; el.style.top=top;
+        el.style.transform=`scaleX(${w.face.toFixed(3)})`;
+        for(const k in pz.d) if(refs[k]) refs[k].setAttribute('d',pz.d[k]);
+        refs.head.setAttribute('cx',f1(pz.head[0])); refs.head.setAttribute('cy',f1(pz.head[1]));
+      });
+    });
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+});
+</script>
+</body>
+</html>
